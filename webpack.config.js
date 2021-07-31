@@ -23,7 +23,7 @@ module.exports = {
         'src/browserconfig.xml',
         'src/sitemap.xml',
         'src/robots.txt',
-        { from: 'src/assets/fav-icon', to: 'assets/fav-icon' },
+        { from: 'src/assets/icons', to: 'assets/icons' },
         { from: 'src/assets/download', to: 'assets/download' },
         { from: 'src/assets', to: 'assets' },
       ]
