@@ -1,0 +1,47 @@
+resources:
+  pipelines:
+  - pipeline: resume-build
+    source: resume-build
+    trigger: 
+      branches:
+        - master
+
+trigger: none
+
+stages:
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+    - deployment: DeployWeb
+      pool: 
+        vmImage: 'windows-latest'
+      environment: 'prd'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: none
+            - task: DownloadPipelineArtifact@2
+              displayName: Download artifact
+              inputs:
+                source: specific
+                project: Resume
+                pipeline: resume-build
+                runVersion: 'latest'
+            - task: AzureFileCopy@4
+              displayName: Deploy artifact
+              inputs:
+                azureSubscription: 'ResumeAzureConnection'
+                destination: AzureBlob
+                storage: resumebert
+                containerName: $web
+                sourcePath: '$(Pipeline.Workspace)/drop/dist/*'
+                cleanTargetBeforeCopy: true
+            - task: PurgeAzureCDNEndpoint@2
+              inputs:
+                ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
+                ConnectedServiceNameARM: 'ResumeAzureConnection'
+                ResourceGroupName: 'resume'
+                EndpointName: 'resume-bert-hertogen'
+                ProfileName: 'resume-cdn'
+                PurgeContent: '/*'

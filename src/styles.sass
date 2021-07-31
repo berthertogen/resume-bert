@@ -1,0 +1,151 @@
+@import "~bootstrap/scss/bootstrap-grid.scss"
+  
+$blue: #01136F
+$lightblue: #5194DD
+  
+@font-face 
+  font-family: 'AmericanCaptain'
+  src: url('./assets/fonts/AmericanCaptain.woff') format('woff'), url('./assets/fonts/AmericanCaptain.ttf') format('truetype'), url('./assets/fonts/AmericanCaptain.otf') format('otf')
+  font-weight: 600
+  font-style: normal
+  font-display: swap
+
+
+html
+  min-height: 100%
+  margin: 0
+
+  body
+    color: 000000
+    margin: 0 auto
+    font-family: 'Arial Narrow'
+    background: url('./assets/images/background.png')
+    min-height: 100%
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center bottom
+    background-attachment: scroll
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    margin-bottom: 40vw
+    max-width: 800px
+
+    p
+      margin: 0
+
+    h1
+      margin: 0
+      color: $blue
+      font-family: 'AmericanCaptain'
+      font-size: 3em
+
+    h2
+      margin: 0
+      color: $blue
+      font-family: 'AmericanCaptain'
+      font-size: 2em
+
+    h3
+      margin: 0.5em 0
+      color: $lightblue
+      font-size: 1em
+
+    .lightblue
+      color: $lightblue
+      
+    .blue
+      color: $blue
+
+    address
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      font-style: normal
+
+      .right
+        justify-content: flex-end
+
+      a
+        display: block
+
+    section
+      padding: 1em
+      width: 100%
+
+    .profile
+      .title
+        display: flex
+        justify-content: space-between
+        flex-direction: column
+      
+    .profile-image
+      display: flex
+      flex-direction: column
+      justify-content: center
+
+      .profile-picture
+        display: flex
+        justify-content: center
+        margin: auto
+      .screen-only
+        display: flex
+        justify-content: center
+        a
+          font-size: 1.5em
+          margin-top: 0.5em
+          margin-left: 0.5em
+          margin-right: 0.5em
+
+    .work-experience
+      p
+        margin-top:0.5em
+
+    .knowledge
+      .table
+        display: flex
+        flex-direction: row
+        justify-content: space-evenly
+
+        div
+          width: 50%
+
+    .certification
+      .list
+        display: flex
+        flex-wrap: wrap
+
+@include media-breakpoint-up(md)
+  html
+    body
+      .profile,
+      .profile-image,
+      .education-training,
+      .knowledge,
+      .skills-talents,
+      .certification
+        width: 50%
+
+.print-only
+  speak: none
+  display: none
+
+@media print
+  html,
+  body
+    margin-bottom: 0 !important
+    min-height: 0 !important
+
+    .watermark
+      display: none
+
+      img
+        width: 100%
+    section
+      padding: 0.5em !important
+
+  .print-only
+    display: block
+  
+  .screen-only
+    display: none
