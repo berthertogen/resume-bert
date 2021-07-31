@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/index.js',
@@ -23,12 +23,13 @@ module.exports = {
         'src/browserconfig.xml',
         'src/sitemap.xml',
         'src/robots.txt',
-        { from: 'src/assets/fav-icon', to: 'assets/fav-icon'},
-        { from: 'src/assets/download', to: 'assets/download'},
+        { from: 'src/assets/fav-icon', to: 'assets/fav-icon' },
+        { from: 'src/assets/download', to: 'assets/download' },
+        { from: 'src/assets', to: 'assets' },
       ]
     }),
-    new ExtractTextPlugin({
-      filename: "[name].[hash].css"
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
     })
   ],
   devServer: {
@@ -39,40 +40,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|gif|webp)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          }
-        }],
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        test: /\.s[ac]ss$/i,
         use: [
-          'file-loader',
+          "style-loader",
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: false,
+            },
+          },
+          "css-loader",
+          "sass-loader",
         ],
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: ExtractTextPlugin.extract({
-          use: [
-            'css-loader', {
-              loader: 'postcss-loader', // Run postcss actions
-              options: {
-                plugins: function () { // postcss plugins, can be exported to postcss.config.js
-                  return [
-                    require('autoprefixer')
-                  ];
-                }
-              }
-            },
-            'sass-loader',
-          ]
-        })
-      },
-      {
-        test:/\.html$/,
+        test: /\.html$/,
         use: [
           'html-loader'
         ]
